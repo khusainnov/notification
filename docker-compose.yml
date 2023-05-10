@@ -24,11 +24,11 @@ services:
       - .:/app
 
   rabbit:
-    image: "rabbitmq"
+    image: "rabbitmq:3-management"
     container_name: "notify-rabbit_v1.0"
     ports:
-      - "15692:15692"
-      - "15672:5672"
+      - "15672:15672"
+      - "15670:5672"
     environment:
       - RABBITMQ_DEFAULT_USER=rabbitmq
       - RABBITMQ_DEFAULT_PASS=rabbitmq

@@ -36,8 +36,8 @@ proto/lint:
 run:
 	go run cmd/notification/main.go
 
-rabbit-up:
-	docker run --name rabbit -e RABBITMQ_DEFAULT_USER=rabbitmq -e RABBITMQ_DEFAULT_PASS=rabbitmq -p 15672:5672 -d --rm rabbitmq
+r-up:
+	docker run --name rabbit -e RABBITMQ_DEFAULT_USER=rabbitmq -e RABBITMQ_DEFAULT_PASS=rabbitmq -p 15672:15672 -p 5672:5672 -d --rm rabbitmq:3-management
 
-rabbit-down:
+r-stop:
 	docker stop rabbit

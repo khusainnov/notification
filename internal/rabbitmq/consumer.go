@@ -13,6 +13,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// Client –
 type Client struct {
 	log   *zap.Logger
 	conn  *amqp.Connection
@@ -35,6 +36,7 @@ func NewConsumer(cfg *config.Config, email *email.Client) (*Client, error) {
 	}, nil
 }
 
+// Run – listen incoming messages and send it to `SendEmail`
 func (c *Client) Run(ctx context.Context) {
 	wg := &sync.WaitGroup{}
 
@@ -75,6 +77,7 @@ func (c *Client) Run(ctx context.Context) {
 	wg.Wait()
 }
 
+// setup – setting up rabbit delivery channel
 func (c *Client) setup() (<-chan amqp.Delivery, error) {
 	ch, err := c.conn.Channel()
 	if err != nil {

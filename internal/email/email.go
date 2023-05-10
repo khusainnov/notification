@@ -9,6 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
+// Client –
 type Client struct {
 	log *zap.Logger
 	cfg *Config
@@ -21,6 +22,7 @@ func NewClient(cfg *config.Config) *Client {
 	}
 }
 
+// SendEmail – send final emails
 func (c *Client) SendEmail(email *model.SendEmail) error {
 	auth := c.authMail()
 

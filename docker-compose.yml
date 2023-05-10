@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    container_name: "notification-app_v1.0"
+    ports:
+      - "9001:80"
+    environment:
+      - GRPC_ADDR=:9001
+      - MAIL_FROM=${MAIL_FROM_D}
+      - MAIL_PASSWORD=${MAIL_PASSWORD_D}
+      - RABBIT_HOST=rabbit
+      - RABBIT_PORT=:5672
+      - RABBIT_USER=rabbitmq
+      - RABBIT_PASSWORD=rabbitmq
+    tty: true
+    restart: always
+    depends_on:
+      - rabbit
+    networks:
+      - notify
+    volumes:
+      - .:/app
+
+  rabbit:
+    image: "rabbitmq"
+    container_name: "notify-rabbit_v1.0"
+    ports:
+      - "15692:15692"
+      - "15672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+    restart: on-failure
+    networks:
+      - notify
+
+networks:
+  notify:
+    driver: bridge

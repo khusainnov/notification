@@ -10,7 +10,6 @@ import (
 
 	"github.com/khusainnov/notification/internal/app/notificationservice"
 	"github.com/khusainnov/notification/internal/config"
-	"github.com/khusainnov/notification/internal/email"
 	"github.com/khusainnov/notification/internal/rabbitmq"
 	napi "github.com/khusainnov/notification/pkg/notificationapi/v1"
 	"go.uber.org/zap"
@@ -26,14 +25,14 @@ func Run(ctx context.Context, cfg *config.Config) error {
 		return fmt.Errorf("error due listen addr, %w", err)
 	}
 
-	emailClient := email.NewClient(cfg)
+	//emailClient := email.NewClient(cfg)
 
-	consumer, err := rabbitmq.NewConsumer(cfg, emailClient)
+	consumer, err := rabbitmq.NewConsumer(cfg)
 	if err != nil {
 		return fmt.Errorf("cannot create consumer, %w", err)
 	}
 
-	notificationClient := notificationservice.NewClient(emailClient)
+	notificationClient := notificationservice.NewClient(cfg)
 
 	napi.RegisterNotificationServiceServer(s, notificationClient)
 	reflection.Register(s)

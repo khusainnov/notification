@@ -21,7 +21,7 @@ type Client struct {
 	email *email.Client
 }
 
-func NewConsumer(cfg *config.Config, email *email.Client) (*Client, error) {
+func NewConsumer(cfg *config.Config) (*Client, error) {
 	addr := fmt.Sprintf("amqp://%s:%s@%s%s/", cfg.RabbitUser, cfg.RabbitPassword, cfg.RabbitHost, cfg.RabbitPort)
 	conn, err := amqp.Dial(addr)
 	if err != nil {
@@ -32,7 +32,7 @@ func NewConsumer(cfg *config.Config, email *email.Client) (*Client, error) {
 		log:   cfg.L,
 		conn:  conn,
 		cfg:   prepareConsumer(cfg),
-		email: email,
+		email: email.NewClient(cfg),
 	}, nil
 }
 

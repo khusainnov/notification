@@ -14,7 +14,7 @@ func (n *NotificationImpl) SendEmail(ctx context.Context, req *napi.SendEmailReq
 	if err := n.email.SendEmail(napiReq); err != nil {
 		return &napi.SendEmailResponse{
 			Status: napi.EmailDeliveryStatus_EMAIL_DELIVERY_STATUS_FAILED,
-		}, status.Errorf(codes.Internal, "error due send email, %v", err)
+		}, status.Errorf(codes.Internal, "%v, %v", napi.EmailDeliveryStatus_EMAIL_DELIVERY_STATUS_FAILED, err)
 	}
 
 	return &napi.SendEmailResponse{

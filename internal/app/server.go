@@ -25,8 +25,6 @@ func Run(ctx context.Context, cfg *config.Config) error {
 		return fmt.Errorf("error due listen addr, %w", err)
 	}
 
-	//emailClient := email.NewClient(cfg)
-
 	consumer, err := rabbitmq.NewConsumer(cfg)
 	if err != nil {
 		return fmt.Errorf("cannot create consumer, %w", err)
